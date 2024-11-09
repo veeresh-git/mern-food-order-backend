@@ -4,6 +4,7 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import myUserRoutes from "./routes/user";
 import myResturantRoutes from "./routes/resturant";
+import ResturantRoutes from "./routes/resturants";
 import { v2 as cloudinary } from "cloudinary";
 
 mongoose
@@ -29,5 +30,6 @@ app.use("/health", (req: Request, res: Response) => {
 
 app.use("/api/my/user", myUserRoutes);
 app.use("/api/my/resturant", myResturantRoutes);
+app.use("/api/restaurant", ResturantRoutes);
 
 app.listen(3002, () => console.log("Server started at port 3002"));
