@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import myUserRoutes from "./routes/user";
 import myResturantRoutes from "./routes/resturant";
 import ResturantRoutes from "./routes/resturants";
+import OrderRoutes from "./routes/orderStatus";
 import { v2 as cloudinary } from "cloudinary";
 
 mongoose
@@ -21,15 +22,18 @@ cloudinary.config({
 
 const app = express();
 
-app.use(express.json());
 app.use(cors());
+
+app.use("/api/order/checkout/webhook", express.raw({ type: "*/*" }));
+
+app.use(express.json());
 
 app.use("/health", (req: Request, res: Response) => {
   res.status(200).json({ message: "Health ok!" });
 });
-
 app.use("/api/my/user", myUserRoutes);
 app.use("/api/my/resturant", myResturantRoutes);
 app.use("/api/restaurant", ResturantRoutes);
+app.use("/api/order", OrderRoutes);
 
 app.listen(3002, () => console.log("Server started at port 3002"));

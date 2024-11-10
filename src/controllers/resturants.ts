@@ -65,3 +65,20 @@ export const searchRestuant = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getRestuant = async (req: Request, res: Response) => {
+  try {
+    const restuantId = req.params.restuantId;
+    const resturant = await Resturant.findById(restuantId);
+    if (resturant) {
+      res.status(200).json(resturant);
+    } else {
+      res.status(404).json({ message: "Resturant not found!" });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      message: "Error getting resturant!",
+    });
+  }
+};
