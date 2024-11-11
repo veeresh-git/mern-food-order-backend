@@ -30,13 +30,15 @@ export const jwtParse = async (
     const token = authorization.split(" ")[1];
     try {
       const decoded = jwt.decode(token) as jwt.JwtPayload;
+      console.log(decoded.sub, "decoded.sub");
       const user = await User.findOne({ auth0Id: decoded.sub });
       if (!user) {
         res.sendStatus(401);
+      } else {
+        req.auth0Id = decoded.sub as string;
+        req.userId = user?._id.toString() as string;
+        next();
       }
-      req.auth0Id = decoded.sub as string;
-      req.userId = user?._id.toString() as string;
-      next();
     } catch (error) {
       console.log(error);
       res.sendStatus(401);
